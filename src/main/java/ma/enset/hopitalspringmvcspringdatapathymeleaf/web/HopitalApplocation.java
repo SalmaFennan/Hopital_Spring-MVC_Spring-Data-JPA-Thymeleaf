@@ -21,13 +21,18 @@ public class HopitalApplocation implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Patient patient = new Patient();
-        patient.setId(null);
-        patient.setNom("Mohammed");
-        patient.setDateNaissance(new Date());
-        patient.setMalade(true);
-        patient.setScore(23);
-        Patient patient2=Patient.builder().nom("Khalil").dateNaissance(new Date()).score(56).malade(true).build();
+      //  Patient patient = new Patient();
+       // patient.setId(null);
+      //  patient.setNom("Mohammed");
+     //   patient.setDateNaissance(new Date());
+    //    patient.setMalade(true);
+    //    patient.setScore(23);
+    //    Patient patient2=Patient.builder().nom("Khalil").dateNaissance(new Date()).score(56).malade(true).build();
+        patientRepository.save(new Patient(null,"mohamed",new Date(),false,34));
+        patientRepository.save(new Patient(null,"Imane",new Date(),false,150));
+        patientRepository.save(new Patient(null,"Khalil",new Date(),true,60));
+
+
 
     }
 }
