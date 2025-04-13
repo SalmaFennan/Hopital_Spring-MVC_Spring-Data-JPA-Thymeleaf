@@ -9,5 +9,4 @@ public class HopitalSpringMvcSpringDataJpaThymeleafApplication {
     public static void main(String[] args) {
         SpringApplication.run(HopitalSpringMvcSpringDataJpaThymeleafApplication.class, args);
     }
-
 }
