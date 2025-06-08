@@ -4,19 +4,13 @@ import org.springframework.ui.Model;
 import lombok.AllArgsConstructor;
 import ma.enset.hopitalspringmvcspringdatapathymeleaf.entities.Patient;
 import ma.enset.hopitalspringmvcspringdatapathymeleaf.repository.PatientRepository;
-import org.apache.catalina.WebResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
-
-import java.util.List;
 
 @Controller
 @AllArgsConstructor // Injecte automatiquement le repository
@@ -77,7 +71,7 @@ public class PatientController {
         model.addAttribute("patient", patient);
         model.addAttribute("page", page);
         model.addAttribute("keyword", keyword);
-        return "editPatients";
+        return "editPatient";
     }
     @GetMapping
     public String home(){
