@@ -1,10 +1,13 @@
 package ma.enset.hopitalspringmvcspringdatapathymeleaf.security;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +23,8 @@ import javax.sql.DataSource;
 public class SecurityConfig {
 
     private final UserDetailServiceImpl userDetailService; // Injecté via constructeur par Lombok AllArgsConstructor
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private final DataSource dataSource;
 
@@ -27,7 +32,14 @@ public class SecurityConfig {
     public JdbcUserDetailsManager jdbcUserDetailsManager() {
         return new JdbcUserDetailsManager(dataSource);
     }
-
+    @Bean
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager(){
+        return new InMemoryUserDetailsManager(
+                User.withUsername("user1").password(passwordEncoder.encode("1234")).roles("USER").build(),
+                User.withUsername("user2").password(passwordEncoder.encode("1234")).roles("USER").build(),
+                User.withUsername("admin").password(passwordEncoder.encode("1234")).roles("USER", "ADMIN").build()
+        );
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
