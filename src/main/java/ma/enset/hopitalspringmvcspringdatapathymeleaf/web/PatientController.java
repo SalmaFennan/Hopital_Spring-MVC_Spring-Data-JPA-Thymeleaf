@@ -4,30 +4,45 @@ import org.springframework.ui.Model;
 import lombok.AllArgsConstructor;
 import ma.enset.hopitalspringmvcspringdatapathymeleaf.entities.Patient;
 import ma.enset.hopitalspringmvcspringdatapathymeleaf.repository.PatientRepository;
+import org.apache.catalina.WebResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+
+
+import java.util.List;
+
 @Controller
 @AllArgsConstructor // Injecte automatiquement le repository
 public class PatientController {
+
     private final PatientRepository patientRepository;
+
     @GetMapping("/user/index")
     public String index(Model model,
                         @RequestParam(name = "page", defaultValue = "0") int page,
                         @RequestParam(name = "size", defaultValue = "4") int size,
                         @RequestParam(name = "keyword", defaultValue = "") String kw) {
+
+        // Récupérer la page des patients en fonction du mot-clé (kw) et de la pagination
         Page<Patient> pagePatients = patientRepository.findByNomContains(kw, PageRequest.of(page, size));
+
+        // Ajouter les attributs au modèle pour la vue
         model.addAttribute("listPatients", pagePatients.getContent()); // Liste des patients de la page actuelle
         model.addAttribute("pages", new int[pagePatients.getTotalPages()]); // Nombre total de pages
         model.addAttribute("currentPage", page); // Page actuelle
         model.addAttribute("size", size); // Taille de la page
         model.addAttribute("keyword", kw); // Mot-clé de recherche
+
         return "patients"; // Retourne la vue "patients.html"
     }
+
     @GetMapping("/admin/delete")
     public String delete(@RequestParam long id, @RequestParam String keyword, @RequestParam int page) {
         patientRepository.deleteById(id);
@@ -62,7 +77,7 @@ public class PatientController {
         model.addAttribute("patient", patient);
         model.addAttribute("page", page);
         model.addAttribute("keyword", keyword);
-        return "editPatient";
+        return "editPatients";
     }
     @GetMapping
     public String home(){
